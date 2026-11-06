@@ -14,8 +14,8 @@ const Navbar = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 w-full z-50 bg-white/80 dark:bg-[#121212]/80 backdrop-blur-md p-4 flex justify-center items-center transition-colors duration-200">
-      <div className="w-full max-w-6xl bg-gray-100 dark:bg-[#1c1c1e] border border-gray-200 dark:border-white/5 rounded-2xl p-4 flex items-center justify-between shadow-2xl relative transition-colors duration-200">
+    <nav className="fixed top-0 left-0 w-full z-50 py-4 px-4 flex justify-center items-center pointer-events-none">
+      <div className="w-full max-w-6xl bg-white/80 dark:bg-[#1c1c1e]/80 backdrop-blur-md border border-gray-200 dark:border-white/5 rounded-2xl p-4 flex items-center justify-between shadow-2xl relative pointer-events-auto transition-colors duration-200">
         <Link href="/" className="flex items-center">
           <Image
             src="/assets/images/logo.png"
@@ -27,6 +27,7 @@ const Navbar = () => {
           />
         </Link>
 
+        {/* Desktop Navigation */}
         <div className="hidden md:flex items-center gap-6">
           <div className="flex items-center gap-6 text-sm font-medium">
             {navLinks.map((link) => {
@@ -112,6 +113,7 @@ const Navbar = () => {
           </div>
         </div>
 
+        {/* Mobile Navigation */}
         <div className="md:hidden flex items-center gap-2">
           <label
             htmlFor="theme-toggle-mobile"
