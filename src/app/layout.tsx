@@ -4,23 +4,23 @@ import "./globals.css";
 import Navbar from "@/components/common/Navbar";
 
 const openSans = Open_Sans({
-  variable: "--font-open-sans",
+    variable: "--font-open-sans",
 });
 
 export const metadata: Metadata = {
-  title: "HireLoop - Find Your Dream Job",
-  description: "Modern job platform built with Next.js, Tailwind CSS, and Shadcn UI",
+    title: "HireLoop - Find Your Dream Job",
+    description: "Modern job platform built with Next.js, Tailwind CSS, and Shadcn UI",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
-  return (
-    <html lang="en" className={`${openSans.variable} ${openSans.className} h-full antialiased dark`}>
-      <body className="min-h-full bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 flex flex-col items-center transition-colors duration-200">
-        <Navbar />
-        <main className="w-full max-w-6xl pt-28 pb-12 px-4 flex-1 flex flex-col items-center">
-          {children}
-        </main>
-      </body>
-    </html>
-  );
+    return (
+        <html lang="en" className={`${openSans.variable} ${openSans.className} h-full antialiased dark`}>
+            <body className="min-h-full bg-white dark:bg-[#121212] text-gray-900 dark:text-gray-100 flex flex-col items-center transition-colors duration-200">
+                <Navbar />
+                <main className="w-full pt-20 flex-1 flex flex-col items-center">
+                    {children}
+                </main>
+            </body>
+        </html>
+    );
 }
