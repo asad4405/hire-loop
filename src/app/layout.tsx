@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Open_Sans } from "next/font/google";
 import "./globals.css";
 import Navbar from "@/components/common/Navbar";
+import { Toaster } from "@/components/ui/sonner";
 
 const openSans = Open_Sans({
     variable: "--font-open-sans",
@@ -20,6 +21,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <main className="w-full pt-20 flex-1 flex flex-col items-center">
                     {children}
                 </main>
+                <Toaster richColors position="bottom-right" />
             </body>
         </html>
     );
