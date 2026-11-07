@@ -1,6 +1,7 @@
 'use client';
 
 import Link from 'next/link';
+import { useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
@@ -8,9 +9,11 @@ import { Label } from '@/components/ui/label';
 import { authClient } from '@/lib/auth-client';
 import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
+import { Users, UserCheck, ShieldCheck } from 'lucide-react';
 
 const SignUpPage = () => {
     const router = useRouter();
+    const [selectedRole, setSelectedRole] = useState<'seeker' | 'recruiter' | 'admin'>('seeker');
 
     const handleSignUp = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -22,7 +25,8 @@ const SignUpPage = () => {
             password: user.password as string,
             name: user.name as string,
             image: user.image as string,
-        });
+            role: selectedRole,
+        } as unknown as Parameters<typeof authClient.signUp.email>[0]);
 
         if (error) {
             toast.error(error.message || "Sign Up Failed! Something went wrong.");
@@ -50,12 +54,57 @@ const SignUpPage = () => {
                     <form onSubmit={handleSignUp} className="space-y-4">
                         <div className="space-y-2">
                             <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">
+                                Joining HireLoop as
+                            </Label>
+                            <div className="grid grid-cols-3 gap-2">
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedRole('seeker')}
+                                    className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all cursor-pointer ${
+                                        selectedRole === 'seeker'
+                                            ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
+                                            : 'border-gray-200 dark:border-white/10 hover:border-gray-300 text-gray-600 dark:text-gray-400 bg-gray-50/50 dark:bg-black/20'
+                                    }`}
+                                >
+                                    <Users className="w-5 h-5 mb-1" />
+                                    <span className="text-[11px] font-medium">Job Seeker</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedRole('recruiter')}
+                                    className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all cursor-pointer ${
+                                        selectedRole === 'recruiter'
+                                            ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
+                                            : 'border-gray-200 dark:border-white/10 hover:border-gray-300 text-gray-600 dark:text-gray-400 bg-gray-50/50 dark:bg-black/20'
+                                    }`}
+                                >
+                                    <UserCheck className="w-5 h-5 mb-1" />
+                                    <span className="text-[11px] font-medium">Recruiter</span>
+                                </button>
+                                <button
+                                    type="button"
+                                    onClick={() => setSelectedRole('admin')}
+                                    className={`flex flex-col items-center justify-center p-3 rounded-xl border transition-all cursor-pointer ${
+                                        selectedRole === 'admin'
+                                            ? 'border-indigo-500 bg-indigo-50/50 dark:bg-indigo-500/10 text-indigo-600 dark:text-indigo-400'
+                                            : 'border-gray-200 dark:border-white/10 hover:border-gray-300 text-gray-600 dark:text-gray-400 bg-gray-50/50 dark:bg-black/20'
+                                    }`}
+                                >
+                                    <ShieldCheck className="w-5 h-5 mb-1" />
+                                    <span className="text-[11px] font-medium">Admin</span>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div className="space-y-2">
+                            <Label className="text-xs font-medium text-gray-700 dark:text-gray-300">
                                 Full Name
                             </Label>
                             <Input
                                 type="text"
                                 name="name"
                                 placeholder="Your Name"
+                                required
                                 className="w-full h-12 bg-gray-100/80 dark:bg-black/20 border-gray-200 dark:border-white/10 rounded-xl px-4 text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus-visible:ring-indigo-500"
                             />
                         </div>
@@ -68,6 +117,7 @@ const SignUpPage = () => {
                                 type="email"
                                 name="email"
                                 placeholder="Your Email"
+                                required
                                 className="w-full h-12 bg-gray-100/80 dark:bg-black/20 border-gray-200 dark:border-white/10 rounded-xl px-4 text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus-visible:ring-indigo-500"
                             />
                         </div>
@@ -105,6 +155,7 @@ const SignUpPage = () => {
                                     name="password"
                                     type="password"
                                     placeholder="••••••••"
+                                    required
                                     className="w-full h-12 bg-gray-100/80 dark:bg-black/20 border-gray-200 dark:border-white/10 rounded-xl px-4 pr-16 text-sm text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus-visible:ring-indigo-500"
                                 />
                                 <label

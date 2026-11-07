@@ -6,10 +6,18 @@ const client = new MongoClient(process.env.MONGODB_URL as string);
 const db = client.db('hire-loop');
 
 export const auth = betterAuth({
+    user: {
+        additionalFields: {
+            role: {
+                type: ['seeker', 'recruiter', 'admin'],
+                input: true,
+            }
+        }
+    },
     database: mongodbAdapter(db, {
         client,
     }),
-    emailAndPassword: { 
-        enabled: true, 
-    }, 
+    emailAndPassword: {
+        enabled: true,
+    },
 });
