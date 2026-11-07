@@ -1,8 +1,10 @@
 'use client';
 
+import { authClient } from '@/lib/auth-client';
 import Image from 'next/image';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 
 const Navbar = () => {
     const pathname = usePathname();
@@ -12,6 +14,21 @@ const Navbar = () => {
         { name: 'Company', href: '/company' },
         { name: 'Pricing', href: '/pricing' },
     ];
+
+    const router = useRouter();
+    const { data: session } = authClient.useSession();
+    const user = session?.user;
+
+    const handleSignOut = async () => {
+        await authClient.signOut({
+            fetchOptions: {
+                onSuccess: () => {
+                    toast.success("Signed out successfully!");
+                    router.push("/signin"); 
+                },
+            },
+        });
+    };
 
     return (
         <nav className="fixed top-0 left-0 w-full z-50 pt-4 px-4 flex justify-center items-center pointer-events-none">
@@ -49,13 +66,6 @@ const Navbar = () => {
                     <div className="h-4 w-px bg-gray-300 dark:bg-gray-700/60 mx-1" />
 
                     <div className="flex items-center gap-4">
-                        <Link
-                            href="/signin"
-                            className="text-sm font-medium text-[#7c7fff] hover:text-[#9093ff] transition-colors"
-                        >
-                            Sign In
-                        </Link>
-
                         <label
                             htmlFor="theme-toggle-desktop"
                             className="cursor-pointer p-1.5 text-gray-700 dark:text-gray-200 hover:text-[#0093ff] transition-colors"
@@ -102,12 +112,58 @@ const Navbar = () => {
                             }}
                         />
 
-                        <Link
-                            href="/get-started"
-                            className="bg-linear-to-r from-[#635BFF] to-[#7A73FF] hover:opacity-90 text-white text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/20"
-                        >
-                            Get Started
-                        </Link>
+                        {user ? (
+                            <div className="relative group">
+                                <div className="flex items-center gap-2 cursor-pointer p-1 rounded-full hover:bg-gray-100 dark:hover:bg-white/5 transition-colors">
+                                    {user.image ? (
+                                        <Image
+                                            src={user.image}
+                                            alt={user.name || "User"}
+                                            width={36}
+                                            height={36}
+                                            className="w-9 h-9 rounded-full object-cover border border-gray-200 dark:border-white/10"
+                                        />
+                                    ) : (
+                                        <div className="w-9 h-9 rounded-full bg-linear-to-r from-[#635BFF] to-[#7A73FF] text-white flex items-center justify-center font-bold text-xs">
+                                            {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                                        </div>
+                                    )}
+                                </div>
+                                <div className="absolute right-0 top-full mt-2 w-48 bg-white dark:bg-[#1c1c1e] border border-gray-200 dark:border-white/10 rounded-xl p-2 shadow-xl opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 flex flex-col gap-1 z-50">
+                                    <div className="px-3 py-2 border-b border-gray-100 dark:border-white/5">
+                                        <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{user.name}</p>
+                                        <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+                                    </div>
+                                    <Link
+                                        href="/profile"
+                                        className="w-full text-left px-3 py-2 text-xs font-medium text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-white/5 rounded-lg transition-colors cursor-pointer"
+                                    >
+                                        Profile
+                                    </Link>
+                                    <button
+                                        onClick={handleSignOut}
+                                        className="w-full text-left px-3 py-2 text-xs font-medium text-red-600 dark:text-red-400 hover:bg-red-50 dark:hover:bg-red-500/10 rounded-lg transition-colors cursor-pointer"
+                                    >
+                                        Sign Out
+                                    </button>
+                                </div>
+                            </div>
+                        ) : (
+                            <div className="flex items-center gap-4">
+                                <Link
+                                    href="/signin"
+                                    className="text-sm font-medium text-[#7c7fff] hover:text-[#9093ff] transition-colors"
+                                >
+                                    Sign In
+                                </Link>
+                                <Link
+                                    href="/signup"
+                                    className="bg-linear-to-r from-[#635BFF] to-[#7A73FF] hover:opacity-90 text-white text-sm font-medium px-4 py-2 rounded-xl transition-all duration-200 shadow-lg shadow-indigo-500/20"
+                                >
+                                    Get Started
+                                </Link>
+                            </div>
+                        )}
                     </div>
                 </div>
 
@@ -195,18 +251,50 @@ const Navbar = () => {
                             );
                         })}
                         <hr className="border-gray-200 dark:border-gray-800 my-1" />
-                        <Link
-                            href="/signin"
-                            className="text-sm font-medium text-[#7c7fff] hover:text-[#9093ff] transition-colors"
-                        >
-                            Sign In
-                        </Link>
-                        <Link
-                            href="/get-started"
-                            className="bg-linear-to-r from-[#635BFF] to-[#7A73FF] hover:opacity-90 text-white text-sm font-medium px-4 py-2 rounded-lg text-center transition-all duration-200"
-                        >
-                            Get Started
-                        </Link>
+                        {user ? (
+                            <div className="flex flex-col gap-2">
+                                <div className="flex items-center gap-2 py-1">
+                                    {user.image ? (
+                                        <Image
+                                            src={user.image}
+                                            alt={user.name || "User"}
+                                            width={32}
+                                            height={32}
+                                            className="w-8 h-8 rounded-full object-cover border border-gray-200 dark:border-white/10"
+                                        />
+                                    ) : (
+                                        <div className="w-8 h-8 rounded-full bg-linear-to-r from-[#635BFF] to-[#7A73FF] text-white flex items-center justify-center font-bold text-xs">
+                                            {user.name ? user.name.charAt(0).toUpperCase() : "U"}
+                                        </div>
+                                    )}
+                                    <div className="overflow-hidden">
+                                        <p className="text-xs font-semibold text-gray-900 dark:text-white truncate">{user.name}</p>
+                                        <p className="text-[10px] text-gray-500 dark:text-gray-400 truncate">{user.email}</p>
+                                    </div>
+                                </div>
+                                <button
+                                    onClick={handleSignOut}
+                                    className="w-full text-left text-xs font-medium text-red-600 dark:text-red-400 hover:underline py-1 cursor-pointer"
+                                >
+                                    Sign Out
+                                </button>
+                            </div>
+                        ) : (
+                            <>
+                                <Link
+                                    href="/signin"
+                                    className="text-sm font-medium text-[#7c7fff] hover:text-[#9093ff] transition-colors"
+                                >
+                                    Sign In
+                                </Link>
+                                <Link
+                                    href="/get-started"
+                                    className="bg-linear-to-r from-[#635BFF] to-[#7A73FF] hover:opacity-90 text-white text-sm font-medium px-4 py-2 rounded-lg text-center transition-all duration-200"
+                                >
+                                    Get Started
+                                </Link>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
