@@ -18,20 +18,20 @@ import { useSession } from "@/lib/auth-client";
 const menuItemsByRole = {
     seeker: [
         { name: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-        { name: "Applications", url: "/dashboard/applications", icon: FileText },
-        { name: "Settings", url: "/dashboard/settings", icon: Settings },
+        { name: "Applications", url: "/dashboard/seeker/applications", icon: FileText },
+        { name: "Settings", url: "/dashboard/seeker/settings", icon: Settings },
     ],
     recruiter: [
         { name: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-        { name: "Manage Jobs", url: "/dashboard/jobs", icon: Briefcase },
-        { name: "Applications", url: "/dashboard/applications", icon: FileText },
-        { name: "Settings", url: "/dashboard/settings", icon: Settings },
+        { name: "Manage Jobs", url: "/dashboard/recruiter/jobs", icon: Briefcase },
+        { name: "Applications", url: "/dashboard/recruiter/applications", icon: FileText },
+        { name: "Settings", url: "/dashboard/recruiter/settings", icon: Settings },
     ],
     admin: [
         { name: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
-        { name: "Manage Jobs", url: "/dashboard/jobs", icon: Briefcase },
-        { name: "Applications", url: "/dashboard/applications", icon: FileText },
-        { name: "Settings", url: "/dashboard/settings", icon: Settings },
+        { name: "Manage Jobs", url: "/dashboard/admin/jobs", icon: Briefcase },
+        { name: "Applications", url: "/dashboard/admin/applications", icon: FileText },
+        { name: "Settings", url: "/dashboard/admin/settings", icon: Settings },
     ],
 };
 
