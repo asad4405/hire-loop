@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Briefcase, FileText, Settings } from "lucide-react";
+import { LayoutDashboard, Briefcase, FilePlus, FileText, Settings } from "lucide-react";
 import {
     Sidebar,
     SidebarContent,
@@ -24,6 +24,7 @@ const menuItemsByRole = {
     recruiter: [
         { name: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
         { name: "Manage Jobs", url: "/dashboard/recruiter/jobs", icon: Briefcase },
+        { name: "Add Jobs", url: "/dashboard/recruiter/jobs/new", icon: FilePlus },
         { name: "Applications", url: "/dashboard/recruiter/applications", icon: FileText },
         { name: "Settings", url: "/dashboard/recruiter/settings", icon: Settings },
     ],
