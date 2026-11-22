@@ -28,3 +28,15 @@ export async function getJobs(): Promise<jobType[]> {
 
     return res.json();
 }
+
+
+export async function deleteJob(jobsId: string) {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs/${jobsId}`, {
+        method: 'DELETE',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+    });
+
+    return res.json();
+}
