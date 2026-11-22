@@ -1,4 +1,6 @@
-export async function createJob(jobsData: Record<string, unknown>) {
+import { jobType } from "@/types/jobType";
+
+export async function createJob(jobsData: jobType) {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs`, {
         method: 'POST',
         headers: {
@@ -9,6 +11,19 @@ export async function createJob(jobsData: Record<string, unknown>) {
 
     if (!res.ok) {
         throw new Error('Failed to create job');
+    }
+
+    return res.json();
+}
+
+
+export async function getJobs(): Promise<jobType[]> {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs`, {
+        cache: 'no-store',
+    });
+
+    if (!res.ok) {
+        throw new Error('Failed to fetch jobs');
     }
 
     return res.json();

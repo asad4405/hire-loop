@@ -25,6 +25,7 @@ import {
     Calendar,
 } from 'lucide-react';
 import { createJob } from '@/lib/actions/job';
+import { jobType } from '@/types/jobType';
 
 const NewJobPage = () => {
     const router = useRouter();
@@ -38,10 +39,16 @@ const NewJobPage = () => {
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         const formData = new FormData(e.currentTarget);
-        const formValues = Object.fromEntries(formData.entries());
 
-        const jobsData = {
-            ...formValues,
+        const jobsData: jobType = {
+            title: String(formData.get('title') ?? ''),
+            company: String(formData.get('company') ?? ''),
+            location: String(formData.get('location') ?? ''),
+            deadline: String(formData.get('deadline') ?? ''),
+            minSalary: String(formData.get('minSalary') ?? ''),
+            maxSalary: String(formData.get('maxSalary') ?? ''),
+            responsibilities: String(formData.get('responsibilities') ?? ''),
+            requirements: String(formData.get('requirements') ?? ''),
             jobType: selectedType,
             category,
             isRemote,
@@ -159,10 +166,11 @@ const NewJobPage = () => {
                                             key={type}
                                             type="button"
                                             onClick={() => setSelectedType(type)}
-                                            className={`h-10 rounded-xl text-xs font-medium border transition-all cursor-pointer ${isActive
+                                            className={`h-10 rounded-xl text-xs font-medium border transition-all cursor-pointer ${
+                                                isActive
                                                     ? 'bg-[#1C1B2E] border-indigo-500 text-zinc-100'
                                                     : 'bg-[#16161A] border-white/10 text-zinc-400 hover:text-zinc-200 hover:border-white/20'
-                                                }`}
+                                            }`}
                                         >
                                             {type}
                                         </button>
