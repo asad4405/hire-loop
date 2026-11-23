@@ -1,4 +1,4 @@
-import React from 'react';
+import { Suspense } from 'react';
 import Link from 'next/link';
 import {
     Plus,
@@ -44,7 +44,7 @@ async function loadJobsWithStatus(): Promise<{ jobs: JobWithStatus[]; error: str
     }
 }
 
-const ManageJobsPage = async () => {
+const ManageJobsContent = async () => {
     const { jobs, error } = await loadJobsWithStatus();
 
     return (
@@ -221,5 +221,17 @@ const ManageJobsPage = async () => {
         </div>
     );
 };
+
+const ManageJobsPage = () => (
+    <Suspense
+        fallback={
+            <div className="w-full max-w-6xl mx-auto px-4 py-8 text-sm text-zinc-400" role="status">
+                Loading job listings...
+            </div>
+        }
+    >
+        <ManageJobsContent />
+    </Suspense>
+);
 
 export default ManageJobsPage;
