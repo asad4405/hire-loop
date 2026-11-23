@@ -107,7 +107,7 @@ const ManageJobsPage = async () => {
                                 jobs.map((job, index) => (
                                     <tr
                                         key={job._id ?? index}
-                                        className="hover:bg-white transition-colors"
+                                        className="hover:bg-white/[0.02] transition-colors"
                                     >
                                         {/* Job Title & Category/Dept */}
                                         <td className="py-4 px-4">
