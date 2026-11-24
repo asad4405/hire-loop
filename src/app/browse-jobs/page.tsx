@@ -1,11 +1,16 @@
-import React from 'react';
+import JobsContent from '@/components/browse-jobs/JobsContent';
+import React, { Suspense } from 'react';
 
-const BrowseJobsPage = async({ searchParams }: { searchParams: Promise<{ [key: string]: string | string[] | undefined }> }) => {
-    const search = await searchParams;
-    const urlSearch = new URLSearchParams(search as Record<string, string>);
+const BrowseJobsPage = ({
+    searchParams,
+}: {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+}) => {
     return (
-        <div>
-            <h2>Browse Jobs</h2>
+        <div className="w-full max-w-6xl mx-auto px-4 py-8 text-zinc-100">
+            <Suspense fallback={<div className="text-sm text-zinc-400 py-8">Loading jobs...</div>}>
+                <JobsContent searchParams={searchParams} />
+            </Suspense>
         </div>
     );
 };

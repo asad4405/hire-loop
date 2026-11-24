@@ -18,7 +18,8 @@ export async function createJob(jobsData: jobType) {
 
 
 export async function getJobs(query = ''): Promise<jobType[]> {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs${query}`, {
+    const searchQuery = query ? `?${query}` : '';
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs${searchQuery}`, {
         cache: 'no-store',
     });
 
