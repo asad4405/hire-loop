@@ -41,3 +41,15 @@ export async function deleteJob(jobsId: string) {
 
     return res.json();
 }
+
+export async function getJobById(id: string): Promise<jobType | null> {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_BASE_URL}/jobs/${id}`, {
+        cache: 'no-store',
+    });
+
+    if (!res.ok) {
+        return null;
+    }
+
+    return res.json();
+}
