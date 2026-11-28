@@ -30,7 +30,16 @@ const SignInPage = () => {
 
         if (data) {
             toast.success("Signed in successfully!");
-            router.push('/');
+            const redirectTo = new URLSearchParams(window.location.search).get('redirectTo');
+            const safeRedirectTo =
+                redirectTo &&
+                redirectTo.startsWith('/') &&
+                !redirectTo.startsWith('//') &&
+                !redirectTo.includes('\\')
+                    ? redirectTo
+                    : '/';
+
+            router.push(safeRedirectTo);
         }
     };
 

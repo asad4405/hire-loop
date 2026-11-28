@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Card, CardContent } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
+import ApplyNowButton from '@/components/jobs/ApplyNowButton';
 import {
     ArrowLeft,
     Bookmark,
@@ -18,7 +19,7 @@ import {
     ShieldCheck,
 } from 'lucide-react';
 import { getJobById } from '@/lib/actions/job';
-import { jobType } from '@/types/jobType';
+import type { jobType } from '@/types/jobType';
 
 interface JobDetailsPageProps {
     params: Promise<{ id: string }>;
@@ -106,12 +107,7 @@ const JobDetailsContent = async ({ params }: JobDetailsPageProps) => {
                         >
                             <Bookmark className="w-4 h-4" />
                         </button>
-                        <Button
-                            type="button"
-                            className="h-10 px-5 rounded-xl bg-white text-zinc-950 hover:bg-zinc-200 font-semibold text-xs sm:text-sm cursor-pointer"
-                        >
-                            Apply Now
-                        </Button>
+                        <ApplyNowButton jobId={job._id ?? id} />
                     </div>
                 </CardContent>
             </Card>
